@@ -106,10 +106,6 @@ void print_board() {
             // Set the style for the cell
             string style = "";
 
-            // Green if the row, column, or block is complete
-            if (row_complete[i] || col_complete[j] || block_complete[i / 2][j / 2]) {
-                style = "G";
-            }
 
             // Cyan for the cursor position
             if (cur_r == i && cur_c == j) {
@@ -117,8 +113,13 @@ void print_board() {
             }
 
             // Red for invalid cells
-            if (row_invalid[i] || col_invalid[j] || block_invalid[i / 2][j / 2]) {
+            else if (row_invalid[i] || col_invalid[j] || block_invalid[i / 2][j / 2]) {
                 style = "R";
+            }
+           
+            // Green if the row, column, or block is complete
+            else if (row_complete[i] || col_complete[j] || block_complete[i / 2][j / 2]) {
+                style = "G";
             }
 
             // Bold for immutable cells
@@ -171,62 +172,67 @@ void initialize() {
 void fill_number(char c) {
     if (editable[cur_r][cur_c]) {
         board[cur_r][cur_c] = c - '0'; // Convert char to integer and fill it in
-    } 
+    }
     else {
         cout << "!!! Cannot edit this cell !!!" << endl; // Cell is immutable
     }
 }
 
 void move_cursor(char c) {
-   if (c == 'W' || c == 'w') 
+   if (c == 'W' || c == 'w')
     {
         // 向上移動，直到遇到可編輯的格子或者出界
         for (int i = cur_r - 1; i >= 0; --i)
-        
+       
         {
-            if (editable[i][cur_c]) 
+            if (editable[i][cur_c])
             {
                 cur_r = i;
                 return;
             }
         }
     }
-    else if (c == 'S' || c == 's') 
+    else if (c == 'S' || c == 's')
     {
         // 向下移動，直到遇到可編輯的格子或者出界
         for (int i = cur_r + 1; i < 4; ++i)
         {
-            if (editable[i][cur_c]) 
+            if (editable[i][cur_c])
             {
                 cur_r = i;
                 return;
             }
         }
     }
-    else if (c == 'A' || c == 'a') 
+    else if (c == 'A' || c == 'a')
     {
         // 向左移動，直到遇到可編輯的格子或者出界
         for (int i = cur_c - 1; i >= 0; --i)
         {
-            if (editable[cur_r][i]) 
+            if (editable[cur_r][i])
             {
                 cur_c = i;
                 return;
             }
         }
     }
-    else if (c == 'D' || c == 'd') 
+    else if (c == 'D' || c == 'd')
     {
         // 向右移動，直到遇到可編輯的格子或者出界
         for (int i = cur_c + 1; i < 4; ++i)
         {
-            if (editable[cur_r][i]) 
+            if (editable[cur_r][i])
             {
                 cur_c = i;
                 return;
             }
         }
     }
+}
+
+bool check_win(){
+    /* TODO: Check if the game is set. That is, every cell is finished. */
+    return false;
 }
 
 int main() {
@@ -259,6 +265,15 @@ int main() {
         }
 
         print_board();
+        
+        if (check_win())
+        {
+            cout << "YOU WIN!" << endl;
+            break;
+        }
+
+        if (!action_ok)
+            cout << get_styled_text("!!! Invalid action !!!", "R");
     }
     return 0;
 }
