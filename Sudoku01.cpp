@@ -84,7 +84,7 @@ string get_styled_text(string text, string style) {
 }
 
 void print_board() {
-    // Clear the screen
+    // Flush the screen
     cout << "\x1b[2J\x1b[1;1H";
 
     // Print usage hint
@@ -230,10 +230,29 @@ void move_cursor(char c) {
     }
 }
 
-bool check_win(){
-    /* TODO: Check if the game is set. That is, every cell is finished. */
-    return false;
+bool check_win() {
+    // 檢查每行、每列以及每個 2x2 大格是否均已完成，且無衝突
+    for (int i = 0; i < 4; ++i) {
+        if (!row_complete[i] || row_invalid[i]) {
+            return false;
+        }
+        if (!col_complete[i] || col_invalid[i]) {
+            return false;
+        }
+    }
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            if (!block_complete[i][j] || block_invalid[i][j]) {
+                return false;
+            }
+        }
+    }
+
+    // 若滿足條件，則遊戲完成
+    cout << get_styled_text("YOU WIN!", "G") << endl;
+    return true;
 }
+
 
 int main() {
     char c;
@@ -265,11 +284,10 @@ int main() {
         }
 
         print_board();
-        
-        if (check_win())
-        {
-            cout << "YOU WIN!" << endl;
-            break;
+
+        // 檢查是否完成遊戲
+        if (check_win()) {
+            break; // 結束程式
         }
 
         if (!action_ok)
@@ -277,4 +295,5 @@ int main() {
     }
     return 0;
 }
+
 
