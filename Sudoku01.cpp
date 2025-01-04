@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int board[4][4] = {
+int board[4][4] = {  //ªì©l¼Æ¿W 
     {0, 0, 1, 0},
     {0, 4, 0, 0},
     {0, 0, 2, 0},
