@@ -21,7 +21,7 @@ bool block_complete[2][2] = {false};  // 標記每個 2x2 大格是否滿日完成
 
 int cur_r = 0, cur_c = 0;
 
-void check_horizontal(int i) {
+void check_horizontal(int i) {//行 
     bool seen[5] = {false};
     row_invalid[i] = false;
     row_complete[i] = true;
@@ -37,7 +37,7 @@ void check_horizontal(int i) {
     }
 }
 
-void check_vertical(int j) {
+void check_vertical(int j) {//列 
     bool seen[5] = {false};
     col_invalid[j] = false;
     col_complete[j] = true;
@@ -53,7 +53,7 @@ void check_vertical(int j) {
     }
 }
 
-void check_block(int block_row, int block_col) {
+void check_block(int block_row, int block_col) {//大格 
     bool seen[5] = {false};
     block_invalid[block_row][block_col] = false;
     block_complete[block_row][block_col] = true;
